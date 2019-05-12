@@ -1,0 +1,8 @@
+{
+  "name": "macro_maker",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "https://github.com/Helge801/macro_maker",
+  "author": "Bryan Lund",
+  "license": "MIT"
+}
