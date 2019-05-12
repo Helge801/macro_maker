@@ -4,5 +4,10 @@
   "main": "index.js",
   "repository": "https://github.com/Helge801/macro_maker",
   "author": "Bryan Lund",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "path": "^0.12.7",
+    "webpack": "^4.31.0",
+    "webpack-dev-server": "^3.3.1"
+  }
 }
