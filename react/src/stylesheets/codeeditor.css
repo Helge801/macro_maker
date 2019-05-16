@@ -4,6 +4,19 @@
 .code-fun { color: #44a398; }
 .code-reg { color: #bf1c1f; }
 .code-def { color: grey;    }
+.code-err { 
+  color: grey;
+  position: relative;
+}
+.code-err::before {
+    background-color: red;
+    height: 1px;
+    width: 100%;
+    content: "";
+    left: 0;
+    bottom: 0;
+    position: absolute;
+}
 
 .code-wrapper {
   position: relative;
@@ -13,8 +26,8 @@
 
 .code-textarea,
 .code-pre {
-  font-size: 18px;
-  font-family: roboto;
+  font-size: 16px;
+  font-family: courier;
   background: none;
   color: grey;
   padding: 0px;

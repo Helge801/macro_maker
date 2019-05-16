@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { tokenize } from '../processors/tokenize.js';
+import { tabChar } from '../settings.js';
 import '../stylesheets/codeeditor.css';
 
 class CodeEditor extends Component {
@@ -14,10 +15,64 @@ class CodeEditor extends Component {
     this.setState({text: e.target.value});
   }
 
+  onKeyDown(e){
+    if(e.keyCode == 9) this.indent(e)
+  }
+
+  indent(e){
+    e.preventDefault();
+    var t = e.target,
+      s = t.selectionStart,
+      e = t.selectionEnd,
+      v = t.value,
+      l = v.length,
+      text; 
+    if(s === e) text = v.substring(0, s) + tabChar + v.substring(e);
+    else{
+      var lines = v.split(/\n/),
+        index = 0;
+        
+      for(var i = 0; i < lines.length; i++){
+        if(this.overlap(index,index + lines[i].length,s,e)){
+          index += lines[i].length;
+          lines[i] = `${tabChar}${lines[i]}`;
+        } else {
+          index += lines[i].length + 1;
+        }
+      }
+      text = lines.join("\n");
+    }
+    
+
+    this.state.text = t.value = text;
+    t.selectionStart = s + tabChar.length;
+    t.selectionEnd = e + text.length - l;
+    this.forceUpdate();
+  }
+
+  overlap(as,ae,bs,be){
+    return (
+      this.inRange(as,ae,bs) ||
+      this.inRange(as,ae,be) ||
+      this.inRange(bs,be,as) ||
+      this.inRange(bs,be,ae)
+    )
+  }
+
+  inRange(s,e,i){
+    return i >= s && i <= e
+  }
+
   render(){
   return (
     <div className="code-wrapper">
-      <textarea className="code-textarea" ref="ta"  value={this.state.text} onChange={this.onChange.bind(this)}/>
+      <textarea
+        className="code-textarea"
+        ref="ta"
+        value={this.state.text}
+        onChange={this.onChange.bind(this)}
+        onKeyDown={this.onKeyDown.bind(this)}
+      />
       {renderCode(this.state.text)}
     </div>
   )
@@ -26,7 +81,7 @@ class CodeEditor extends Component {
 }
 
 function renderCode(text){
-  return (<pre className="code-pre">
+  return (<pre className="code-pre" ref="pre">
     {
       tokenize(text).map(t =>{
         if(t.match(/^\/.*\/$/)) return wrapSpan(t,"code-reg")
@@ -54,6 +109,8 @@ function getWordClass(token){
     case "url_imagebig":
     case "currency":
       return "code-res";
+    case "if":
+      return "code-fun";
     default:
       return "code-err";
   }
