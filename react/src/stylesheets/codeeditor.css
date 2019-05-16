@@ -1,0 +1,33 @@
+.code-int { color: #d77574; }
+.code-str { color: #c4df7f; }
+.code-res { color: #74a2c6; }
+.code-fun { color: #44a398; }
+.code-reg { color: #bf1c1f; }
+
+.code-wrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.code-textarea,
+.code-pre {
+  font-size: 18px;
+  font-family: roboto;
+  background: none;
+  color: grey;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  resize: none;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  white-space: pre-wrap;
+}
+
+.code-pre {
+  pointer-events: none;
+}

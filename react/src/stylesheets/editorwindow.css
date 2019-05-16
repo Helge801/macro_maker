@@ -1,0 +1,26 @@
+.editor-window-wrapper{
+  background: linear-gradient(45deg,#000000,#323232);
+  margin: 20px 10px;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px 10px 10px 40px;
+}
+
+.editor-title-wrapper {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 30px;
+  height: 100%;
+  writing-mode: vertical-rl;
+  font-size: 1.5em;
+  padding-top: 20px;
+  background: linear-gradient(0deg,#42f4b3,#2dad7e);
+}
+
+.editor-window-content{
+  height: 100%;
+  width: 100%;
+}

@@ -1,0 +1,11 @@
+.header-wrapper {
+  grid-column-start: 1;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background-color: #42f4b3;
+}
+
+.header-title {
+  margin: 0px;
+} 

@@ -1,0 +1,15 @@
+.text-editor-wrapper{
+  height: 100%;
+  width: 100%;
+}
+
+.text-editor-textarea{
+  height: 100%;
+  width: 100%;
+  font-size: 1.1em;
+  color: lightgrey;
+  background: none;
+  border: none;
+  outline: none;
+  resize: none;
+}
