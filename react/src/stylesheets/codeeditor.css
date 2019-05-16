@@ -3,6 +3,7 @@
 .code-res { color: #74a2c6; }
 .code-fun { color: #44a398; }
 .code-reg { color: #bf1c1f; }
+.code-def { color: grey;    }
 
 .code-wrapper {
   position: relative;
