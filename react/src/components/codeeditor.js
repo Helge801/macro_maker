@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { tokenize } from '../processors/tokenize.js';
-import { tabChar } from '../settings.js';
+import { TABCHAR } from '../settings.js';
 import '../stylesheets/codeeditor.css';
 
 class CodeEditor extends Component {
@@ -12,6 +12,7 @@ class CodeEditor extends Component {
   }
 
   onChange(e){
+    this.props.updateTokens(tokenize(e.target.value))
     this.setState({text: e.target.value});
   }
 
@@ -27,7 +28,7 @@ class CodeEditor extends Component {
       v = t.value,
       l = v.length,
       text; 
-    if(s === e) text = v.substring(0, s) + tabChar + v.substring(e);
+    if(s === e) text = v.substring(0, s) + TABCHAR + v.substring(e);
     else{
       var lines = v.split(/\n/),
         index = 0;
@@ -35,7 +36,7 @@ class CodeEditor extends Component {
       for(var i = 0; i < lines.length; i++){
         if(this.overlap(index,index + lines[i].length,s,e)){
           index += lines[i].length;
-          lines[i] = `${tabChar}${lines[i]}`;
+          lines[i] = `${TABCHAR}${lines[i]}`;
         } else {
           index += lines[i].length + 1;
         }
@@ -45,9 +46,10 @@ class CodeEditor extends Component {
     
 
     this.state.text = t.value = text;
-    t.selectionStart = s + tabChar.length;
+    t.selectionStart = s + TABCHAR.length;
     t.selectionEnd = e + text.length - l;
     this.forceUpdate();
+    this.props.updateTokens(tokenize(text));
   }
 
   overlap(as,ae,bs,be){
@@ -73,17 +75,19 @@ class CodeEditor extends Component {
         onChange={this.onChange.bind(this)}
         onKeyDown={this.onKeyDown.bind(this)}
       />
-      {renderCode(this.state.text)}
+      {renderCode(this.props.tokens)}
     </div>
   )
   }
 
 }
 
-function renderCode(text){
+function renderCode(tokens){
+  console.log("rendering code",tokens)
+  tokens = tokens || []
   return (<pre className="code-pre" ref="pre">
     {
-      tokenize(text).map(t =>{
+      tokens.map(t =>{
         if(t.match(/^\/.*\/$/)) return wrapSpan(t,"code-reg")
         if(t.match(/^\".*\"$/)) return wrapSpan(t,"code-str")
         if(t.match(/.+\($/))    return wrapSpan(t,"code-fun",true)

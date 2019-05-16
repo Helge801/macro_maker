@@ -1,6 +1,7 @@
 import React from 'react';
 import TextEditor from './texteditor.js';
 import '../stylesheets/editorwindow.css';
+import TextDisplay from './textdisplay.js';
 
 const EditorWindow = (props) => {
   const { coords, mode } = props;
@@ -17,7 +18,9 @@ const EditorWindow = (props) => {
         <div className="editor-window-content">
           { (() => {switch(mode){
               case "edit":
-                return <TextEditor/>
+                return <TextEditor {...props}/>;
+              case "static":
+                return <TextDisplay tokens={props.tokens}/>
               default:
                 return mode;
             }

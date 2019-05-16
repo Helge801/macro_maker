@@ -9,7 +9,7 @@ class TextEditor extends Component {
     return(
       <div className="text-editor-wrapper">
         {/* <textarea className="text-editor-textarea"/> */}
-        <CodeEditor/>
+        <CodeEditor {...this.props}/>
       </div>
     )
   }
