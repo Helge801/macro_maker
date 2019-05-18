@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './stylesheets/app.css';
 import Header from './components/header.js';
 import EditorWindow from './components/editorwindow.js';
+import CodeEditor from './components/codeeditor.js';
+import TextDisplay from './components/textdisplay.js';
 
 class App extends Component {
   constructor(props){
@@ -21,12 +23,23 @@ class App extends Component {
   }
 
   render(){
+    const { tokens } = this.state;
     return(
       <div id="main-wrapper">
+
         <Header/>
-        <EditorWindow coords={[2,3,2,3]} mode="edit" title="Pseudo Code" tokens={this.state.tokens} updateTokens={this.updateTokens.bind(this)}/>
-        <EditorWindow coords={[3,4,2,3]} mode="block" title="Logical Blocks" tokens={this.state.token} updateToken={this.updateTokens.bind(this)}/>
-        <EditorWindow coords={[2,4,3,4]} mode="static" title="Output" tokens={this.state.tokens} value={this.state.macro}/>
+
+        <EditorWindow coords={[2,3,2,3]} title="Pseudo Code" >
+          <CodeEditor tokens={tokens} updateTokens={this.updateTokens.bind(this)} />
+        </EditorWindow>
+
+        <EditorWindow coords={[3,4,2,3]} title="Logical Blocks" >
+          <h1 style={{color: "grey"}}>Comming Soon</h1>
+        </EditorWindow>
+          
+        <EditorWindow coords={[2,4,3,4]} title="Output">
+          <TextDisplay tokens={tokens}/>
+        </EditorWindow>
       </div>
     )
   }

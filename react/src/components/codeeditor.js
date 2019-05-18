@@ -7,7 +7,7 @@ class CodeEditor extends Component {
   constructor(props){
     super(props);
     this.state = {
-      text: "if( id = \"hello\" ){\nid.match(/^something$/)\n}"
+      text: ""
     };
   }
 
