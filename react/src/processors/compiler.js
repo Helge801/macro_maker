@@ -190,8 +190,8 @@ export function compile(tokens){
   }
 
   function handleCapture(subject, expression, index){
-    if(isNaN(parseInt(index))) warning("Second of two  arguments in a match statment should be capture group index (int)");
-    if(expression[0] !== REGEX_DELIMITER || !expression.match(/(.*)/)) warning("First of two arguments in a match statement should be a regex with at least one capture group")
+    if(isNaN(parseInt(index))) err("Second of two  arguments in a match statment should be capture group index (int)");
+    if(expression[0] !== REGEX_DELIMITER || !expression.match(/(.*)/)) err("First of two arguments in a match statement should be a regex with at least one capture group")
     index = isNaN(parseInt(index)) ? index : `$${index}`;
     return gen.RegexReplace(subject,expression,index);
   }

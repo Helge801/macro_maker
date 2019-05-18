@@ -83,18 +83,19 @@ class CodeEditor extends Component {
 }
 
 function renderCode(tokens){
-  console.log("rendering code",tokens)
+  var i = -1;
   tokens = tokens || []
   return (<pre className="code-pre" ref="pre">
     {
       tokens.map(t =>{
-        if(t.match(/^\/.*\/$/)) return wrapSpan(t,"code-reg")
-        if(t.match(/^\".*\"$/)) return wrapSpan(t,"code-str")
-        if(t.match(/.+\($/))    return wrapSpan(t,"code-fun",true)
-        if(t.match(/^\d+$/))    return wrapSpan(t,"code-int")
-        if(t.match(/^\w+$/))    return wrapSpan(t,getWordClass(t))
+        i++;
+        if(t.match(/^\/.*\/$/)) return wrapSpan(t,i,"code-reg")
+        if(t.match(/^\".*\"$/)) return wrapSpan(t,i,"code-str")
+        if(t.match(/.+\($/))    return wrapSpan(t,i,"code-fun",true)
+        if(t.match(/^\d+$/))    return wrapSpan(t,i,"code-int")
+        if(t.match(/^\w+$/))    return wrapSpan(t,i,getWordClass(t))
 
-        return wrapSpan(t,"code-def")
+        return wrapSpan(t,i,"code-def")
       })
     }
   </pre>)
@@ -121,9 +122,9 @@ function getWordClass(token){
   }
 }
 
-function wrapSpan(text, cls, pop){
-  if(pop) return <span className={cls}>{text.slice(0,text.length - 1)}<span className="code-def">{text[text.length -1]}</span></span>
-  return <span className={cls}>{text}</span>
+function wrapSpan(text, index, cls, pop){
+  if(pop) return <span key={`${index}${text}`} className={cls}>{text.slice(0,text.length - 1)}<span className="code-def">{text[text.length -1]}</span></span>
+  return <span key={`${index}${text}`} className={cls}>{text}</span>
 }
 
 export default CodeEditor;
