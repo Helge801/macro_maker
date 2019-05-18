@@ -114,6 +114,7 @@ function getWordClass(token){
     case "currency":
       return "code-res";
     case "if":
+    case "else":
       return "code-fun";
     default:
       return "code-err";

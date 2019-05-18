@@ -3,8 +3,10 @@ import { REGEX_DELIMITER, STRING_DELIMITER } from '../settings.js';
 
 export function compile(tokens){
   console.log(gen)
-  var errors = [];
-  var macro = processStatements(tokens);
+  var errors = [],
+    macro;
+  try{macro = processStatements(tokens);}
+  catch(e){err("Failed to compile")}
   return errors.length > 0 ? errors.join("\n") : escapeMacro(macro);
 
   function processStatements(tokens){
@@ -200,7 +202,8 @@ export function compile(tokens){
     var {endingIndex, args} = extractInternalsFromBrackets(tokens,"{",endingIndex);
     var whenTrue = processStatements(args[0]);
     var whenFalse = "";
-    if(tokens[endingIndex + 1] && tokens[endingIndex + 1] == "else"){
+    if(nextToken(tokens, endingIndex+1) == "else"){
+      console.log("FOUND ELSE STATEMENT")
       var {endingIndex, args} = extractInternalsFromBrackets(tokens,"{",endingIndex + 1);
       whenFalse = processStatements(args[0]);
     }
@@ -212,6 +215,7 @@ export function compile(tokens){
 
   }
 
+  // TODO handle failer to extract
   function extractInternalsFromBrackets(parts, token, indexOffset = 0){
     var depth = -1;
     var args = [];
@@ -251,6 +255,8 @@ export function compile(tokens){
           }
       }
     }
+    err(`Missing ${inversToken}`);
+    return;
   };
 
   function getInversToken(token){
@@ -315,6 +321,15 @@ function escapeChar(char, layer){
     char =  "\\" + char;
   }
   return char;
+}
+
+function nextToken(tokens,index){
+  console.log("Finding next token",index,tokens)
+  for(var i = index; i < tokens.length; i++){
+    if(!tokens[i].match(/^[\s\r\n]+$/))
+      return tokens[i];
+    console.log("FOUND TOKEN: ",tokens[i])
+  }
 }
 
 
