@@ -2,7 +2,6 @@ import { gen } from './generators.js';
 import { REGEX_DELIMITER, STRING_DELIMITER } from '../settings.js';
 
 export function compile(tokens){
-  console.log(gen)
   var errors = [],
     macro;
   try{macro = processStatements(tokens);}
@@ -70,8 +69,7 @@ export function compile(tokens){
           }
 
           // handle failure to parse token
-          console.log(tokens);
-          err(`I don't know what to do with this token: ${tokens[i]}`);
+          err(`Unknown or out of place token: ${tokens[i]}`);
 
       }
       if(operator){
@@ -88,7 +86,7 @@ export function compile(tokens){
     if(expression.match(/^\//)) return handleRegex(expression);
     if(expression.match(/^\"/)) return handleString(expression);
 
-    console.log(`I dont know what to do with this expression: ${expression}`);
+    err(`Unknown expression: ${expression}`);
     process.exit();
   }
 
@@ -108,7 +106,7 @@ export function compile(tokens){
       case ".replace(":
         return captureReplaceStatement(tokens, subject, index)
       default:
-        console.log(`I don't know what to do with this function: ${tokens[index].replace(/^\.|\($/,'')}`)
+        err(`Unknow function: ${tokens[index].replace(/^\.|\($/,'')}`)
         process.exit();
     }
   }
@@ -121,7 +119,7 @@ export function compile(tokens){
         return handleEquality(left,right);
 
       default:
-        console.log(`I don't know how to handle the operator: ${op}`);
+        err(`Unknown operator: ${op}`);
     }
   }
 
@@ -203,7 +201,6 @@ export function compile(tokens){
     var whenTrue = processStatements(args[0]);
     var whenFalse = "";
     if(nextToken(tokens, endingIndex+1) == "else"){
-      console.log("FOUND ELSE STATEMENT")
       var {endingIndex, args} = extractInternalsFromBrackets(tokens,"{",endingIndex + 1);
       whenFalse = processStatements(args[0]);
     }
@@ -324,11 +321,9 @@ function escapeChar(char, layer){
 }
 
 function nextToken(tokens,index){
-  console.log("Finding next token",index,tokens)
   for(var i = index; i < tokens.length; i++){
     if(!tokens[i].match(/^[\s\r\n]+$/))
       return tokens[i];
-    console.log("FOUND TOKEN: ",tokens[i])
   }
 }
 

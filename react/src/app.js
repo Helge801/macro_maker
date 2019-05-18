@@ -17,7 +17,6 @@ class App extends Component {
   }
 
   updateTokens(tokens){
-    console.log("updating tokens\n",tokens);
     this.setState({tokens});
   }
 

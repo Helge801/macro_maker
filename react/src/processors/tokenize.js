@@ -1,15 +1,10 @@
 export function tokenize(content){
 
   var tokens = content.split('');
-  // console.log(tokens)
   tokens = groupEscapeable(tokens,'"',true);
-  // console.log(tokens)
   tokens = groupEscapeable(tokens,"/",true);
-  // console.log(tokens)
   tokens = groupSpace(tokens);
-  // console.log(tokens);
   tokens = groupTokens(tokens);
-  // console.log(tokens)
   return tokens
 
 }
@@ -46,10 +41,8 @@ function groupSpace(tokens){
     space = ""
 
   for( var i = 0; i < tokens.length; i++){
-    // console.log("evaling", [tokens[i]])
     if(tokens[i].match(/^[\s\r\n]$/)) space += tokens[i]
     else {
-      // console.log("didn't match")
       if( space !== "" ) grouped.push(space)
       space = ""
       grouped.push(tokens[i])
