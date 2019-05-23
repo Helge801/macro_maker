@@ -11,6 +11,7 @@ export function compile(tokens){
   function processStatements(tokens){
     var statements = [];
 
+    tokens = tokens.filter(t => !t.match(/^[\s\r\n]+$/));
     for(var i = 0; i < tokens.length; i++){
       var operator;
 
@@ -116,7 +117,9 @@ export function compile(tokens){
 
       case "==":
       case "===":
-        return handleEquality(left,right);
+        let equ = handleEquality(left,right);
+        console.log(equ);
+        return equ;
 
       default:
         err(`Unknown operator: ${op}`);
@@ -124,6 +127,7 @@ export function compile(tokens){
   }
 
   function handleEquality(a,b){
+    console.log("handling equality\n",`left: ${a}\n`,`right: ${b}`);
     return gen.IfStatment(
       gen.Replace(a,b,""),
       "",
